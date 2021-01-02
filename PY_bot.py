@@ -1,8 +1,11 @@
-import pyaudio
+
 import speech_recognition as sr
 import pyttsx3 as speaker
 import pywhatkit
 import datetime
+import smtplib
+import getpass
+import webbrowser
 now = datetime.datetime.now()
 listener = sr.Recognizer()
 engine = speaker.init()
@@ -18,49 +21,92 @@ try:
             engine.say('yes! i am always there for you i am the loyalest')
             engine.runAndWait()
         if command == 'play music':
-            engine.say('Taalllaaaalalal lalalalal laaaaaaa laaa laa      was that good?   if not try saying play youtube music')
+            engine.say('lalalallalallaaalllaaaalalal lalalalal laaaaaaa laaa laa      was that good?   if not try saying play youtube music')
             engine.runAndWait()
-        if command == 'play youtube music':
+        elif command == 'play youtube music':
             engine.say('give me the title of the video')
             engine.runAndWait()
-            with sr.Microphone() as source1:
+            with sr.Microphone() as source0:
                 print('speak the title...')
-                voice1 = listener.listen(source1)
+                voice1 = listener.listen(source0)
                 command1 = listener.recognize_google(voice1)
                 command = command.lower()
                 engine.say('playing music on yt it will take a little time')
                 engine.runAndWait()
                 pywhatkit.playonyt(command1)
-        if command == 'can you dance':
+        elif command == 'can you dance':
             engine.say('No! i cant i am a robot and robot cant dance    lol')
             engine.runAndWait()
-        if command == 'what is the time':
-            engine.say('current date and time is ')
+        elif command == 'what is the time':
             engine.say('date is')
+            engine.say('current date and time is ')
             engine.say(now.strftime('%d-%m-%y'))
             engine.say('time is ')
             engine.say(now.strftime('%H-%M-%S'))
             engine.runAndWait()
-        if command == 'you are a good boy':
+        elif command == 'you are a good boy':
             engine.say('thanks for your appreciation i will be the loyalest to you ')
             engine.runAndWait()
-        if command == 'you are a bad boy':
+        elif command == 'you are a bad boy':
             engine.say('i do not like you i am leaving you ')
             engine.runAndWait()
-        if command == 'get me some food':
+        elif command == 'get me some food':
             engine.say('i cant do that but you can do it by odering it on zomato or swiggy')
             engine.runAndWait()
-        if command == 'shut up':
+        elif command == 'shut up':
             engine.say('U SHUT UP U CANT TALK TO A BOT LIKE THAT')
             engine.runAndWait()
-        if command == 'are you mad':
+        elif command == 'are you mad':
             engine.say('No i am not mad but i guess you are because you are asking stupid things')
-            engine.runAndWait()    
-        else:
-            engine.say('I dont know what you are speaking')
             engine.runAndWait()
         
+        elif 'song' in command:
+            engine.say('The command is not right try using command play youtube music')
+            engine.runAndWait()
+        elif command == 'do nothing':
+            engine.say('ok i will just sit on the couch and chill')
+            engine.runAndWait()
+        elif command == 'search on google':
+            engine.say('what you want to search')
+            engine.runAndWait()
+            with sr.Microphone() as source4:
+                print('speak what you want to search ')
+                voice2 = listener.listen(source4)
+                command2 = listener.recognize_google(voice2)
+                command = command.lower()
+                engine.say('searching on google')
+                engine.runAndWait()
+                webbrowser.open(f'https://google.com/?#q={command2}')
+        elif command == 'do a email' or 'do mail' or 'do email' or 'do a mail':
+            listener = sr.Recognizer()
+            with sr.Microphone() as source2 :
+                engine.say('please speak the subject of the email')
+                engine.runAndWait()
+                print('speak the subject...')
+                voice = listener.listen(source2)
+                sub = listener.recognize_google(voice)
+            with sr.Microphone() as source3:
+                engine.say('please speak the body of the mail')
+                engine.runAndWait()
+                print('speak the body of th mail....')
+                voice1 = listener.listen(source3)
+                body = listener.recognize_google(voice1)
+                smtp_object = smtplib.SMTP('smtp.gmail.com',587)
+                smtp_object.ehlo()
+                smtp_object.starttls()
+                engine.say('please fill the formalities to send the mail')
+                engine.runAndWait()
+                email = input('email:')
+                password = getpass.getpass('password:')
+                smtp_object.login(email,password)
+                from_ = email
+                to = input('to whom you want to send:')
+                subject = sub
+                content = body
+                msg = 'Subject:' + subject + '\n' + content + '\n'
+                smtp_object.sendmail(from_,to,msg)
+                engine.say('email sent')
+                engine.runAndWait()
 except:
-    engine.speak('Your microphone is not working')
+    engine.say('Your microphone is not working or there is a issue with your internet please try again later')
     engine.runAndWait()
-
