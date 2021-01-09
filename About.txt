@@ -1,0 +1,9 @@
+Hi! I am Raunak Singh , a student in class 8 who is learning to code 
+This is a project made by me which is a dekstop assistant .
+It is not like A AI but it can follow certwain commands like :
+do a mail
+search on google
+play on youtube
+what is the time 
+etc....
+And lastly Thanks for visiting my profile !!!
