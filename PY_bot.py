@@ -91,29 +91,17 @@ def start():
                     engine.runAndWait()
                     webbrowser.open(f'https://google.com/?#q={command2}')
             elif command == 'do a email':
-                with sr.Microphone() as source:
-                    engine.say('please speak what type of mail you want to send ')
-                    engine.runAndWait()
-                    print('speak...')
-                    voice = listener.listen(source)
-                    command = listener.recognize_google(voice)
-                    for word in list(command):
-                        if 'speak' in word:
-                            with sr.Microphone() as source:
-                                engine.say('please speak the subject of the email  ')
-                                engine.runAndWait()
-                                print('speak the subject.....')
-                                voice = listener.listen(source)
-                                sub = listener.recognize_google(voice)
-                            with sr.Microphone() as source1:
-                                print('speak the body of th mail....')
-                                voice1 = listener.listen(source1)
-                                body = listener.recognize_google(voice1)
-                        elif 'type' in command:
-                            engine.say('u have selected the type format')
+                 with sr.Microphone() as source:
+                            engine.say('please speak the subject of the email  ')
                             engine.runAndWait()
-                            sub = input('ENTER THE SUBJECT')
-                            body = input('ENTER THE BODY')
+                            print('speak the subject.....')
+                            voice = listener.listen(source)
+                            sub = listener.recognize_google(voice)
+                        with sr.Microphone() as source1:
+                            print('speak the body of th mail....')
+                            voice1 = listener.listen(source1)
+                            body = listener.recognize_google(voice1)
+                        
                     smtp_object = smtplib.SMTP('smtp.gmail.com', 587)
                     smtp_object.ehlo()
                     smtp_object.starttls()
